@@ -15,9 +15,8 @@ Revision History
 
 //Global Constants
 static float vRef = 4096;
-static uint32_t pin = A1;
 static uint8_t bits = 12;
-RLArduinoAnalogBase daq(pin, vRef, bits);
+RLArduinoAnalogBase daq(vRef, bits);
 
 void setup() {
   SerialUSB.begin(9600);
@@ -39,14 +38,10 @@ void testDaq()
 
 void printState()
 {
-  SerialUSB.print("Bits: ");
-  SerialUSB.println(daq.getBits()); 
-  SerialUSB.print("Vref: ");
-  SerialUSB.println(daq.getVref()); 
-  SerialUSB.print("LSB: ");
-  SerialUSB.println(daq.getLsb());
-  SerialUSB.print("Offset: ");
-  SerialUSB.println(daq.getOffset());
+  SerialUSB.println((String)"Bits: " + daq.getBits());
+  SerialUSB.println((String)"Vref: " + daq.getVref());
+  SerialUSB.println((String)"LSB: " + daq.getLsb());
+  SerialUSB.println((String)"Offset: " + daq.getOffset());
 }
 
 void printVoltageToCode(float testVoltage)
@@ -72,10 +67,8 @@ void testCalibration()
   float voltage1 = 10e-3;
   float voltage2 = 4096.01;
   SerialUSB.println("\n*** Testing Calibration ****"); 
-  SerialUSB.print("Code1: ");
-  SerialUSB.println(code1); 
-  SerialUSB.print("Code2: ");
-  SerialUSB.println(code2); 
+  SerialUSB.println((String)"Code1: " + code1);
+  SerialUSB.println((String)"Code2: " + code2);
   SerialUSB.print("Voltage1: ");
   SerialUSB.println(voltage1,4); 
   SerialUSB.print("Voltage2: ");

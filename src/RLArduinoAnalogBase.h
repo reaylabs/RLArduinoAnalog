@@ -18,7 +18,7 @@ Revision History
 
 class RLArduinoAnalogBase {
   public:
-    explicit RLArduinoAnalogBase(uint32_t pin, float vRef, uint8_t bits);
+    explicit RLArduinoAnalogBase(float vRef, uint8_t bits);
     void calibrate(unsigned long code1, unsigned long code2, float voltage1, float voltage2);
     unsigned long getCodeFromVoltage(float voltage);
     uint8_t getBits();
@@ -29,7 +29,6 @@ class RLArduinoAnalogBase {
 
   private:
     uint8_t _bits;
-    uint32_t _pin;
     uint64_t _count;
     float _vRef;
     float _offset;

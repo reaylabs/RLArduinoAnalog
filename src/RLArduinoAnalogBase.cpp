@@ -15,10 +15,9 @@ Revision History
 #include <math.h>
 
 //Constructor
-RLArduinoAnalogBase::RLArduinoAnalogBase(uint32_t pin, float vRef, uint8_t bits)
+RLArduinoAnalogBase::RLArduinoAnalogBase(float vRef, uint8_t bits)
 {
     _bits = bits;
-    _pin = pin;
     _count = 0x1 << _bits;
     _vRef = vRef;
     _offset = 0;
