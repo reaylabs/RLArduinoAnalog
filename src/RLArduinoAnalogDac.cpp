@@ -14,25 +14,28 @@ Revision History
 #include "RLArduinoAnalogDac.h"
 
 //Constructor
-RLArduinoAnalogDac::RLArduinoAnalogDac(uint32_t pin, float vRef, uint8_t bits):RLArduinoAnalogBase(vRef, bits) 
+RLArduinoAnalogDac::RLArduinoAnalogDac(uint16_t pin, float vRef, uint8_t bits):RLArduinoAnalogBase(vRef, bits) 
 {
   _pin = pin;
+ 
 }
 
-uint32_t RLArduinoAnalogDac::getPin()
+uint16_t RLArduinoAnalogDac::getPin()
 {
   return _pin;
 }
 
 //Write a code to the DAC
-void RLArduinoAnalogDac::writeCode(unsigned long code)
+void RLArduinoAnalogDac::writeCode(uint32_t code)
 {
+  analogWriteResolution(getBits());
   analogWrite(_pin, code);
 }
 
 //Write a voltage to the DAC
 void RLArduinoAnalogDac::writeVoltage(float voltage)
 {
-  uint64_t code = getCodeFromVoltage(voltage);
+  analogWriteResolution(getBits());
+  uint32_t code = getCodeFromVoltage(voltage);
   analogWrite(_pin, code);
 }

@@ -19,7 +19,7 @@ static uint8_t bits = 12;
 RLArduinoAnalogBase daq(vRef, bits);
 
 void setup() {
-  SerialUSB.begin(9600);
+  Serial.begin(9600);
   while(!Serial);
   testDaq();
 }
@@ -29,35 +29,35 @@ void loop() {
 
 void testDaq()
 {
-  SerialUSB.println("\n *** Starting RLArduinoAnalogBase Test ***\n");
+  Serial.println("\n *** Starting RLArduinoAnalogBase Test ***\n");
   testInitialConditions();
   testCalibration();
-  SerialUSB.println("\n *** RLArduinoAnalogBase Test Complete***\n");
+  Serial.println("\n *** RLArduinoAnalogBase Test Complete***\n");
 }
 
 
 void printState()
 {
-  SerialUSB.println((String)"Bits: " + daq.getBits());
-  SerialUSB.println((String)"Vref: " + daq.getVref());
-  SerialUSB.println((String)"LSB: " + daq.getLsb());
-  SerialUSB.println((String)"Offset: " + daq.getOffset());
+  Serial.println((String)"Bits: " + daq.getBits());
+  Serial.println((String)"Vref: " + daq.getVref());
+  Serial.println((String)"LSB: " + daq.getLsb());
+  Serial.println((String)"Offset: " + daq.getOffset());
 }
 
 void printVoltageToCode(float testVoltage)
 {
-  SerialUSB.print("Code at Voltage=");
-  SerialUSB.print(testVoltage);
-  SerialUSB.print(": ");
-  SerialUSB.println(daq.getCodeFromVoltage(testVoltage));
+  Serial.print("Code at Voltage=");
+  Serial.print(testVoltage);
+  Serial.print(": ");
+  Serial.println(daq.getCodeFromVoltage(testVoltage));
 }
 
 void printCodeToVoltage(long testCode)
 {
-  SerialUSB.print("Voltage at code=");
-  SerialUSB.print(testCode);
-  SerialUSB.print(": ");
-  SerialUSB.println(daq.getVoltageFromCode(testCode));
+  Serial.print("Voltage at code=");
+  Serial.print(testCode);
+  Serial.print(": ");
+  Serial.println(daq.getVoltageFromCode(testCode));
 }
 
 void testCalibration()
@@ -66,20 +66,20 @@ void testCalibration()
   unsigned long code2 = 8192;
   float voltage1 = 10e-3;
   float voltage2 = 4096.01;
-  SerialUSB.println("\n*** Testing Calibration ****"); 
-  SerialUSB.println((String)"Code1: " + code1);
-  SerialUSB.println((String)"Code2: " + code2);
-  SerialUSB.print("Voltage1: ");
-  SerialUSB.println(voltage1,4); 
-  SerialUSB.print("Voltage2: ");
-  SerialUSB.println(voltage2,4); 
+  Serial.println("\n*** Testing Calibration ****"); 
+  Serial.println((String)"Code1: " + code1);
+  Serial.println((String)"Code2: " + code2);
+  Serial.print("Voltage1: ");
+  Serial.println(voltage1,4); 
+  Serial.print("Voltage2: ");
+  Serial.println(voltage2,4); 
   daq.calibrate(code1, code2, voltage1, voltage2);
   printState();
 }
 
 void testInitialConditions()
 {
-  SerialUSB.println("*** Testing Initial Conditions ****");
+  Serial.println("*** Testing Initial Conditions ****");
   printState();
   printVoltageToCode(0);
   printVoltageToCode(0.49);

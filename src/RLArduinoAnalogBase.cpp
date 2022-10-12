@@ -21,14 +21,24 @@ RLArduinoAnalogBase::RLArduinoAnalogBase(float vRef, uint8_t bits)
     _count = 0x1 << _bits;
     _vRef = vRef;
     _offset = 0;
-    _lsb = vRef / _count;
+    _lsb = 1;
+    if (_count != 0)
+    {
+      _lsb = vRef / _count;
+    }   
 }
 
 //Calibrate
-void RLArduinoAnalogBase::calibrate(unsigned long code1, unsigned long code2, float voltage1, float voltage2)
+void RLArduinoAnalogBase::calibrate(uint32_t code1, uint32_t code2, float voltage1, float voltage2)
 {
-  _lsb = (voltage2 - voltage1) / (float)(code2 - code1);
-  _offset = voltage1 - (_lsb * code1);
+  //Two point linear calibration
+  uint32_t codeDiff = code2 - code1;
+  if (codeDiff != 0)
+  {
+    _lsb = (voltage2 - voltage1) / (float)(codeDiff); 
+    _offset = voltage1 - (_lsb * code1);
+  }
+  
 }
 
 
@@ -38,10 +48,21 @@ uint8_t RLArduinoAnalogBase::getBits()
   return _bits;
 }
 
-//Get the code from the voltage
-unsigned long RLArduinoAnalogBase::getCodeFromVoltage(float voltage)
+//Get the count
+uint32_t RLArduinoAnalogBase::getCount()
 {
-  unsigned long code = (unsigned long)(round((voltage - _offset) / _lsb));
+  return _count;
+}
+
+//Get the code from the voltage
+uint32_t RLArduinoAnalogBase::getCodeFromVoltage(float voltage)
+{
+  uint32_t code = 0;
+  if (_lsb != 0)
+  {
+    code = (uint32_t)(round((voltage - _offset) / _lsb));
+  }
+  
   if (code > _count -1)
   {
     code = _count - 1;
@@ -67,7 +88,7 @@ float RLArduinoAnalogBase::getOffset()
 }
 
 //Get the voltage from the code
-float RLArduinoAnalogBase::getVoltageFromCode(unsigned long code)
+float RLArduinoAnalogBase::getVoltageFromCode(uint32_t code)
 {
   return  _offset + ((float)code * _lsb);
 }

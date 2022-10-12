@@ -3,6 +3,8 @@ analogDacTest.ino
 
 Description
   Test of the RLArduino Dac class
+  Three DAC's are set up with different bit counts. 
+  The user can write a code or voltage to each DAC or calibrate DAC0 using a voltmeter.
 
 Author
   Robert Reay
@@ -15,14 +17,19 @@ Revision History
 
 //Global Constants
 static float vRef = 3.3062;
-static uint32_t pin = A0;
-static uint8_t bits = 10;
-RLArduinoAnalogDac dac(pin, vRef, bits);
+static int dacCount = 3;
+
+RLArduinoAnalogDac dac[] = {
+  RLArduinoAnalogDac(A0, vRef, 10), //Analog DAC on AVR boards
+  RLArduinoAnalogDac(A2, vRef, 16), //PWM DAC output
+  RLArduinoAnalogDac(A3, vRef, 8)   //PWM DAC output
+};
 
 void setup() {
-  SerialUSB.begin(9600);
+  Serial.begin(9600);
   while(!Serial);
   printMenu();
+ 
 }
 
 void loop() {
@@ -31,31 +38,36 @@ void loop() {
 
 void printState() 
 {
-  SerialUSB.println((String)"Pin: " + dac.getPin());
-  SerialUSB.print("Vref: ");
-  SerialUSB.println(dac.getVref(), 4);
-  SerialUSB.println((String)"Bits: " + dac.getBits()); 
-  SerialUSB.print("Offset: ");
-  SerialUSB.println(dac.getOffset(), 6); 
-  SerialUSB.print("LSB: ");
-  SerialUSB.println(dac.getLsb(), 6); 
+  for (int i = 0; i < dacCount; i++)
+  {
+    Serial.println((String)"*** DAC" + i + " ***");
+    Serial.println((String)"Pin: " + dac[i].getPin());
+    Serial.print("Vref: ");
+    Serial.println(dac[i].getVref(), 4);
+    Serial.println((String)"Bits: " + dac[i].getBits());
+    Serial.println((String)"Count: " + dac[i].getCount()); 
+    Serial.print("Offset: ");
+    Serial.println(dac[i].getOffset(), 6); 
+    Serial.print("LSB: ");
+    Serial.println(dac[i].getLsb(), 6); 
+  }
 }
 
 void printMenu()
 {
-  SerialUSB.println("\n*** Commands ***");
-  SerialUSB.println("1: Print State");
-  SerialUSB.println("2: Set DAC Code");
-  SerialUSB.println("3: Set DAC Voltage");
-  SerialUSB.println("4: Calibrate");
+  Serial.println("\n*** Commands ***");
+  Serial.println("1: Print State");
+  Serial.println("2: Set DAC Code");
+  Serial.println("3: Set DAC Voltage");
+  Serial.println("4: Calibrate DAC0");
   Serial.print("Enter Command: ");
 }
 
 void stripCRLF()
 {
-  while(SerialUSB.peek() == 10 || SerialUSB.peek() == 13)  
+  while(Serial.peek() == 10 || Serial.peek() == 13)  
   {
-    SerialUSB.read();
+    Serial.read();
   }
 }
 
@@ -65,54 +77,68 @@ void processCommand()
   long code2;
   float voltage1;
   float voltage2;
-  while (SerialUSB.available() > 0)
+  while (Serial.available() > 0)
   {
-    int command = SerialUSB.parseInt();
+    int command = Serial.parseInt();
+    int dacNumber = 0;
     stripCRLF();
-    SerialUSB.println(command);
+    Serial.println(command);
     switch (command) {
       case 1:
         printState();
-        SerialUSB.println("Print State Complete");
+        Serial.println("Print State Complete");
       break; 
       case 2:
-        SerialUSB.print("Enter DAC Code: "); 
-        while(!SerialUSB.available()); 
-        code1 = SerialUSB.parseInt();
+        Serial.print("Enter DAC Code: "); 
+        while(!Serial.available()); 
+        code1 = Serial.parseInt();
         stripCRLF();
-        SerialUSB.println(code1); 
-        dac.writeCode(code1);   
-        SerialUSB.println("Set DAC Code Complete"); 
+        Serial.println(code1); 
+        dac[0].writeCode(code1); 
+        dac[1].writeCode(code1);  
+        dac[2].writeCode(code1); 
+        Serial.println("Set DAC Code Complete"); 
         break;
       case 3:
-        SerialUSB.print("Enter DAC Voltage: "); 
-        while(!SerialUSB.available()); 
-        voltage1 = SerialUSB.parseFloat();
+        Serial.print("Enter DAC Voltage: "); 
+        while(!Serial.available()); 
+        voltage1 = Serial.parseFloat();
         stripCRLF();
-        SerialUSB.println(voltage1, 4); 
-        dac.writeVoltage(voltage1);   
-        SerialUSB.println("Set DAC Voltage Complete"); 
+        Serial.println(voltage1, 4); 
+        dac[0].writeVoltage(voltage1);   
+        dac[1].writeVoltage(voltage1); 
+        dac[2].writeVoltage(voltage1);
+        Serial.println("Set DAC Voltage Complete"); 
         break;
       case 4:
+        Serial.print("Enter Dac Number For Calibration (0-2): "); 
+        while(!Serial.available()); 
+        dacNumber = Serial.parseInt();
+        stripCRLF();
+        if (dacNumber > 2)
+        {
+          dacNumber = 2;
+        }
+        Serial.println(dacNumber); 
         code1 = 50;
-        code2 = 974;
-        dac.writeCode(code1); 
-        SerialUSB.print((String)"Enter Measured Voltage For Code=" + code1 + ": "); 
-        while(!SerialUSB.available()); 
-        voltage1 = SerialUSB.parseFloat();
+        code2 = dac[dacNumber].getCount() - 50;
+        dac[dacNumber].writeCode(code1); 
+        Serial.print((String)"Enter Measured Voltage For Code=" + code1 + ": "); 
+        while(!Serial.available()); 
+        voltage1 = Serial.parseFloat();
         stripCRLF();
-        SerialUSB.println(voltage1, 4); 
-        dac.writeCode(code2); 
-        SerialUSB.print((String)"Enter Measured Voltage For Code=" + code2 + ": "); 
-        while(!SerialUSB.available()); 
-        voltage2 = SerialUSB.parseFloat();
+        Serial.println(voltage1, 4); 
+        dac[dacNumber].writeCode(code2); 
+        Serial.print((String)"Enter Measured Voltage For Code=" + code2 + ": "); 
+        while(!Serial.available()); 
+        voltage2 = Serial.parseFloat();
         stripCRLF();
-        SerialUSB.println(voltage2, 4); 
-        dac.calibrate(code1, code2, voltage1, voltage2);  
-        SerialUSB.println("Calibration Complete"); 
+        Serial.println(voltage2, 4); 
+        dac[dacNumber].calibrate(code1, code2, voltage1, voltage2);  
+        Serial.println("Calibration Complete"); 
         break;
       default:
-        SerialUSB.println("Command Not Recognized");
+        Serial.println("Command Not Recognized");
       break;
     }
     printMenu();
