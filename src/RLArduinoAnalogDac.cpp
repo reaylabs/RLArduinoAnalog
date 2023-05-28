@@ -18,6 +18,21 @@ RLArduinoAnalogDac::RLArduinoAnalogDac(uint16_t pin, float vRef, uint8_t bits):R
  
 }
 
+//Record the first calibration voltage and set the second code
+void RLArduinoAnalogDac::continueCalibration(float voltage)
+{
+  _calibration_code_2 = getCodeFromVoltage(getVref() - 0.1);
+  _calibration_voltage_1 = voltage;
+  writeCode(_calibration_code_2);
+}
+
+//Finish the calibration process
+void RLArduinoAnalogDac::finishCalibration(float voltage)
+{
+  _calibration_voltage_2 = voltage;
+  calibrate(_calibration_code_1, _calibration_code_2, _calibration_voltage_1, _calibration_voltage_2);
+}
+
 uint16_t RLArduinoAnalogDac::getPin()
 {
   return _pin;
@@ -40,4 +55,12 @@ void RLArduinoAnalogDac::writeVoltage(float voltage)
   #endif
   uint32_t code = getCodeFromVoltage(voltage);
   analogWrite(_pin, code);
+}
+
+//Start the calibration process
+void RLArduinoAnalogDac::startCalibration()
+{
+  resetCalibration();
+  _calibration_code_1 = getCodeFromVoltage(0.1);
+  writeCode(_calibration_code_1);
 }

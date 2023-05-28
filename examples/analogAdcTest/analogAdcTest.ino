@@ -42,7 +42,6 @@ void setup() {
     Serial.println("M4 Express");
   #endif
 
-  
 }
 
 void loop() {
@@ -71,8 +70,6 @@ void printState()
   Serial.println((String)"Count: " + adc.getCount()); 
   Serial.print("Offset: ");
   Serial.println(adc.getOffset(), 6); 
-  Serial.print("LSB: ");
-  Serial.println(adc.getLsb(), 6);  
   Serial.print("LSB: ");
   Serial.println(adc.getLsb(), 6);  
   Serial.print("Clock Prescaler: ");
@@ -145,20 +142,19 @@ void processCommand()
     case 4:
       code1 = dac.getCodeFromVoltage(0.1);
       code2 = dac.getCodeFromVoltage(vRef - 0.1);
-      dac.writeCode(code1); 
+      dac.startCalibration();
       Serial.print((String)"Enter Measured Voltage For Code=" + code1 + ": "); 
       while(!s.floatAvailable(true)); 
       voltage1 = s.getFloat();
       Serial.println(voltage1, 4); 
-      adcCode1 = adc.readCode();
-      dac.writeCode(code2); 
+      adc.startCalibration(voltage1);
+      dac.continueCalibration(voltage1);
       Serial.print((String)"Enter Measured Voltage For Code=" + code2 + ": "); 
       while(!s.floatAvailable(true)); 
       voltage2 = s.getFloat();
-      adcCode2 = adc.readCode();
       Serial.println(voltage2, 4); 
-      dac.calibrate(code1, code2, voltage1, voltage2);  
-      adc.calibrate(adcCode1, adcCode2, voltage1, voltage2);  
+      adc.finishCalibration(voltage2);
+      dac.finishCalibration(voltage2);
       Serial.println("*** Calibration Complete ***\n"); 
       break;
     case 5:

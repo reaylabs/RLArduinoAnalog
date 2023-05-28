@@ -6,6 +6,7 @@ Description
 
 Author
   Robert Reay
+
 */
 
 #include "RLArduinoAnalogAdc.h"
@@ -15,6 +16,12 @@ RLArduinoAnalogAdc::RLArduinoAnalogAdc(uint16_t pin, float vRef, uint8_t bits, u
 {
   _pin = pin;
   _averageCount = averageCount;
+}
+
+void RLArduinoAnalogAdc::finishCalibration(float voltage) {
+  _calibration_code_2 = _readAdc(); 
+  _calibration_voltage_2 = voltage;
+  calibrate(_calibration_code_1, _calibration_code_2, _calibration_voltage_1, _calibration_voltage_2);
 }
 
 uint32_t RLArduinoAnalogAdc::getAverageCount()
@@ -111,4 +118,10 @@ void RLArduinoAnalogAdc::setSamplen(uint16_t samplen)
     ADC0->SAMPCTRL.bit.SAMPLEN = samplen;
     while(ADC0->SYNCBUSY.reg & ADC_SYNCBUSY_SAMPCTRL); 
   #endif
+}
+
+void RLArduinoAnalogAdc::startCalibration(float voltage) {
+  resetCalibration();
+  _calibration_code_1 = _readAdc(); 
+  _calibration_voltage_1 = voltage;
 }

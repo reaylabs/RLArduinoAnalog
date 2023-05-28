@@ -19,15 +19,33 @@ Class RLArduinoAnalogBase
 Class RLArduinoAnalogDac
 ```C++
     explicit    RLArduinoAnalogDac(uint16_t pin, float vRef, uint8_t bits);
+    void        continueCalibration(float voltage);
+    void        finishCalibration(float voltage);
     uint16_t    getPin();
+    void        startCalibration();
     void        writeCode(uint32_t code);
     void        writeVoltage(float voltage);
-```
+
 Class RLArduinoAnalogAdc
 ```C++
     explicit    RLArduinoAnalogAdc(uint16_t pin, float vRef, uint8_t bits);
+    void        finishCalibration(float voltage);
+    uint32_t    getAverageCount();
     uint16_t    getPin();
+    uint16_t    getPrescaler();
+    uint16_t    getSamplen();
     uint32_t    readCode();
     float       readVoltage();
     void        setAverageCount(uint32_t averageCount);
+    void        startCalibration(float voltage);
+    void        setPrescaler(uint16_t prescaler);
+    void        setSamplen(uint16_t samplen);
+
+
+ 
+
+
+
+
+ 
 ```
