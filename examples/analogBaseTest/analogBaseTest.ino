@@ -6,9 +6,6 @@ Description
 
 Author
   Robert Reay
-
-Revision History
-  10-04-2022 : Initial Code
 */
 
 #include "RLArduinoAnalogBase.h"

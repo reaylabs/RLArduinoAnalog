@@ -6,15 +6,17 @@ Description
 
 Author
   Robert Reay
-
-Revision History
-  10-09-2022 : Initial Code
 */
 
 #ifndef _RL_ARDUINO_ANALOG_BASE_H_
 #define _RL_ARDUINO_ANALOG_BASE_H_
 
 #include "Arduino.h"
+#if defined(__AVR__)
+  #include <EEPROM.h>
+#else
+  #include <avr/pgmspace.h> 
+#endif
 
 class RLArduinoAnalogBase {
   public:
@@ -22,12 +24,15 @@ class RLArduinoAnalogBase {
     void calibrate(uint32_t code1, uint32_t code2, float voltage1, float voltage2);
     uint32_t getCodeFromVoltage(float voltage);
     uint8_t getBits();
+    uint8_t getCalibrationSize();
     uint32_t getCount();
     float getLsb();
     float getOffset();
     float getVoltageFromCode(uint32_t code);
     float getVref();
-
+    void  resetCalibration();
+    void  setCalibration(float lsb, float offset);
+  
   private:
     uint8_t _bits;
     uint32_t _count;

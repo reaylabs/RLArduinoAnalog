@@ -6,9 +6,6 @@ Description
 
 Author
   Robert Reay
-
-Revision History
-  10-09-2022 : Initial Code
 */
 
 #include "RLArduinoAnalogBase.h"
@@ -46,6 +43,12 @@ void RLArduinoAnalogBase::calibrate(uint32_t code1, uint32_t code2, float voltag
 uint8_t RLArduinoAnalogBase::getBits()
 {
   return _bits;
+}
+
+//Get the calibration memory size
+uint8_t RLArduinoAnalogBase::getCalibrationSize()
+{
+  return sizeof(_lsb) + sizeof(_offset);
 }
 
 //Get the count
@@ -97,4 +100,25 @@ float RLArduinoAnalogBase::getVoltageFromCode(uint32_t code)
 float RLArduinoAnalogBase::getVref()
 {
   return _vRef;
+}
+
+//Set the calibration
+void RLArduinoAnalogBase::setCalibration(float lsb, float offset)
+{
+  _lsb = lsb;
+  if (_lsb < 0 && _count != 0)
+  {
+    _lsb = _vRef / _count;
+  }
+  _offset = offset;
+}
+
+//Reset the calibration
+void RLArduinoAnalogBase::resetCalibration()
+{
+  if (_count != 0)
+  {
+    _lsb = _vRef / _count;
+  }  
+  _offset = 0;  
 }

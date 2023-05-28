@@ -6,9 +6,6 @@ Description
 
 Author
   Robert Reay
-
-Revision History
-  10-10-2022 : Initial Code
 */
 
 #ifndef _RL_ARDUINO_ANALOG_DAC_H_
