@@ -106,10 +106,11 @@ float RLArduinoAnalogBase::getVref()
 void RLArduinoAnalogBase::setCalibration(float lsb, float offset)
 {
   _lsb = lsb;
+  /*
   if (_lsb < 0 && _count != 0)
   {
     _lsb = _vRef / _count;
-  }
+  }*/
   _offset = offset;
 }
 
