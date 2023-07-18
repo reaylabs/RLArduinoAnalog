@@ -1,7 +1,7 @@
 # RLArduinoAnalog
 Set of classes that add calibration, averaging, and code<->voltage functionality to the internal ADC and DAC.
 
-To install this library, download the latest released RLArduinoAnalog.zip file and move the decompressed folder to Documents/Arduino/libraries/. 
+To install this library, download the latest released .zip file and move the decompressed folder to Documents/Arduino/libraries/. 
 
 ## Class Summary
 Class RLArduinoAnalogBase
