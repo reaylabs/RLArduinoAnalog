@@ -19,3 +19,4 @@ readVoltage         KEYWORD2
 setAverageCount     KEYWORD2 
 
 # Constants (LITERAL1)
+LIB_VERSION	LITERAL1
