@@ -18,6 +18,8 @@ Author
   #include <avr/pgmspace.h> 
 #endif
 
+#define LIB_VERSION  (F("1.0.0"))
+
 class RLArduinoAnalogBase {
   public:
     explicit RLArduinoAnalogBase(float vRef, uint8_t bits);
