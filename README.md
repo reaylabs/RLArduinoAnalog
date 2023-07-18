@@ -25,7 +25,7 @@ Class RLArduinoAnalogDac
     void        startCalibration();
     void        writeCode(uint32_t code);
     void        writeVoltage(float voltage);
-
+```
 Class RLArduinoAnalogAdc
 ```C++
     explicit    RLArduinoAnalogAdc(uint16_t pin, float vRef, uint8_t bits);
