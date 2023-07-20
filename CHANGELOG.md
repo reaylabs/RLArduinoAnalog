@@ -13,4 +13,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Remove the #define LIB_VERSION
 - Add the version() function
 - Update the keywords
-- Update the examaples with the version() function
+- Update the examples with the version() function
