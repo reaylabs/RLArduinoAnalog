@@ -16,7 +16,7 @@ static uint8_t bits = 12;
 RLArduinoAnalogBase daq(vRef, bits);
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   while(!Serial);
   testDaq();
 }
@@ -26,7 +26,8 @@ void loop() {
 
 void testDaq()
 {
-  Serial.println("\n *** Starting RLArduinoAnalogBase Test ***\n");
+  Serial.println("RLArduinoAnalogBase Version: " + daq.version()+ "\n");
+  Serial.println("*** Starting RLArduinoAnalogBase Test ***\n");
   testInitialConditions();
   testCalibration();
   Serial.println("\n *** RLArduinoAnalogBase Test Complete***\n");

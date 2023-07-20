@@ -21,8 +21,9 @@ RLArduinoAnalogDac dac(A0, vRef, 10);
 RLArduinoAnalogAdc adc(A2, vRef, 16, 1);
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   while(!Serial);
+  Serial.println("RLArduinoAnalog Version: " + s.version()+ "\n");
   printMenu();
   adc.setPrescaler(3);
   adc.setSamplen(63);

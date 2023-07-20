@@ -25,7 +25,7 @@ RLArduinoSerial s('\n');  //Create serial object
     RLArduinoAnalogDac(9, vRef, 8), //8 bit PWM DAC on pin 9
   };
 #elif defined(__SAMD21__)
-int dacCount = 3;
+  int dacCount = 3;
   RLArduinoAnalogDac dac[] = {
     RLArduinoAnalogDac(A0, vRef, 10),  //10 bit analog DAC on pin A0
     RLArduinoAnalogDac(A1, vRef, 10),  //10 bit analog DAC on pin A1 on SAMD51
@@ -38,11 +38,18 @@ int dacCount = 3;
     RLArduinoAnalogDac(A1, vRef, 10),  //10 bit analog DAC on pin A1
     RLArduinoAnalogDac(9, vRef, 8)     //8 bit PWM DAC on pin 9
   };
+#else
+  int dacCount = 1;
+  RLArduinoAnalogDac dac[] = {
+    RLArduinoAnalogDac(9, vRef, 8), //8 bit PWM DAC on pin 9
+  };
 #endif
 
+
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   while(!Serial);
+  Serial.println("RLArduinoADac Version: " + dac[0].version()+ "\n");
   printMenu();
 }
 

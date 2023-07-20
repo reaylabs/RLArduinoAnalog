@@ -34,6 +34,7 @@ class RLArduinoAnalogBase {
     float getVref();
     void  resetCalibration();
     void  setCalibration(float lsb, float offset);
+    String version();
   
   private:
     uint8_t _bits;
@@ -41,6 +42,7 @@ class RLArduinoAnalogBase {
     float _vRef;
     float _offset;
     float _lsb;
+    const String _version = F("1.1.0");
 };
 
 #endif // _RL_ARDUINO_ANALOG_BASE_H_

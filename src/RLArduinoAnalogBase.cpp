@@ -123,3 +123,8 @@ void RLArduinoAnalogBase::resetCalibration()
   }  
   _offset = 0;  
 }
+
+//Get the version
+String RLArduinoAnalogBase::version() {
+  return _version;
+}

@@ -7,16 +7,27 @@ RLArduinoAnalogAdc	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 calibrate           KEYWORD2
+continueCalibration KEYWORD2
+finishCalibration   KEYWORD2
+getCalibrationSize  KEYWORD2
+getCount            KEYWORD2
+getCodeFromVoltage  KEYWORD2
 getAverageCount     KEYWORD2
 getBits             KEYWORD2
 getLsb              KEYWORD2
 getOffset           KEYWORD2
 getPin              KEYWORD2
+getPrescaler        KEYWORD2
 getVoltageFromCode  KEYWORD2
 getVref             KEYWORD2
 readCode            KEYWORD2
 readVoltage         KEYWORD2
+resetCalibration    KEYWORD2
 setAverageCount     KEYWORD2 
+setCalibration      KEYWORD2
+setSamplen          KEYWORD2
+version             KEYWORD2
+writeCode           KEYWORD2
+writeVoltage        KEYWORD2
 
 # Constants (LITERAL1)
-LIB_VERSION	LITERAL1
