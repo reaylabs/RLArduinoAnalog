@@ -14,3 +14,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Add the version() function
 - Update the keywords
 - Update the examples with the version() function
+
+## [1.2.0] - 2023-12-30
+- Add the RLArduinoTMP36 class

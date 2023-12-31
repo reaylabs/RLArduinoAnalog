@@ -1,5 +1,6 @@
 # RLArduinoAnalog
 Set of classes that add calibration, averaging, and code<->voltage functionality to the internal ADC and DAC.
+Also includes a driver for the TMP36 temperature sensor using the internal ADC. 
 
 To install this library, download the latest released .zip file and move the decompressed folder to Documents/Arduino/libraries/. 
 
@@ -44,4 +45,11 @@ Class RLArduinoAnalogAdc
     void startCalibration(float voltage);
     void setPrescaler(uint16_t prescaler);
     void setSamplen(uint16_t samplen);
+```
+
+Class RLArduinoTMP36
+```C++
+    explicit RLArduinoTMP36(uint16_t pin, float vRef, uint8_t bits, uint16_t averageCount = 1);
+    float readTemperatureC();
+    float readTemperatureF();
 ```

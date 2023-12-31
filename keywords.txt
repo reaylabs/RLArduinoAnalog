@@ -22,6 +22,8 @@ getVoltageFromCode  KEYWORD2
 getVref             KEYWORD2
 readCode            KEYWORD2
 readVoltage         KEYWORD2
+readTemperatureC    KEYWORD2
+readTemperatureF    KEYWORD2
 resetCalibration    KEYWORD2
 setAverageCount     KEYWORD2 
 setCalibration      KEYWORD2
