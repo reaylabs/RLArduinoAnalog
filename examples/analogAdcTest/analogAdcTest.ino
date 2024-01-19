@@ -18,7 +18,7 @@ Author
 static float vRef = 3.3;
 RLArduinoSerial s('\n'); 
 RLArduinoAnalogDac dac(A0, vRef, 10);
-RLArduinoAnalogAdc adc(A2, vRef, 16, 1);
+RLArduinoAnalogAdc adc(A2, vRef, 12, 1);
 
 void setup() {
   Serial.begin(115200);

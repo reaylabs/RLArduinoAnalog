@@ -17,3 +17,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.2.0] - 2023-12-30
 - Add the RLArduinoTMP36 class
+
+## [1.3.0] - 2024-01-19
+- Added the UNIPOLAR and BIPOLAR capability to the RLArduinoBase class

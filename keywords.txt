@@ -4,16 +4,19 @@
 RLArduinoAnalogBase	KEYWORD1
 RLArduinoAnalogDac	KEYWORD1
 RLArduinoAnalogAdc	KEYWORD1
+RLArduinoTMP36	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 calibrate           KEYWORD2
-continueCalibration KEYWORD2
+continueCalibration  KEYWORD2
+setDefaultCalibration KEYWORD2
 finishCalibration   KEYWORD2
 getCalibrationSize  KEYWORD2
 getCount            KEYWORD2
 getCodeFromVoltage  KEYWORD2
 getAverageCount     KEYWORD2
 getBits             KEYWORD2
+getGain             KEYWORD2
 getLsb              KEYWORD2
 getOffset           KEYWORD2
 getPin              KEYWORD2

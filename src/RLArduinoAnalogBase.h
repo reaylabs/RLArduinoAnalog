@@ -18,21 +18,29 @@ Author
   #include <avr/pgmspace.h> 
 #endif
 
-#define LIB_VERSION  (F("1.0.0"))
+#define LIB_VERSION  (F("1.3.0"))
 
 class RLArduinoAnalogBase {
   public:
+    //Variables
+    enum encoding {UNIPOLAR, BIPOLAR};
+
+    //Functions
     explicit RLArduinoAnalogBase(float vRef, uint8_t bits);
+    explicit RLArduinoAnalogBase(float vRef, uint8_t bits, float gain, encoding encoding);
+    void  calculateDefaultCalibration(float vRef, uint8_t bits, float gain, encoding encoding);
     void calibrate(uint32_t code1, uint32_t code2, float voltage1, float voltage2);
     uint32_t getCodeFromVoltage(float voltage);
     uint8_t getBits();
     uint8_t getCalibrationSize();
+    float getGain();
     uint32_t getCount();
     float getLsb();
     float getOffset();
     float getVoltageFromCode(uint32_t code);
     float getVref();
-    void  resetCalibration();
+    void  setDefaultCalibration(float vRef, uint8_t bits, float gain, encoding encoding);
+    void resetCalibration();
     void  setCalibration(float lsb, float offset);
     String version();
   
@@ -42,7 +50,9 @@ class RLArduinoAnalogBase {
     float _vRef;
     float _offset;
     float _lsb;
-    const String _version = F("1.1.0");
+    float _gain = 1;
+    encoding _encoding = UNIPOLAR;
+    const String _version = F("1.3.0");
 };
 
 #endif // _RL_ARDUINO_ANALOG_BASE_H_

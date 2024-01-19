@@ -14,15 +14,12 @@ Author
 //Constructor
 RLArduinoAnalogBase::RLArduinoAnalogBase(float vRef, uint8_t bits)
 {
-    _bits = bits;
-    _count = 0x1 << _bits;
-    _vRef = vRef;
-    _offset = 0;
-    _lsb = 1;
-    if (_count != 0)
-    {
-      _lsb = vRef / _count;
-    }   
+  setDefaultCalibration(vRef, bits, 1.0, UNIPOLAR); 
+}
+
+RLArduinoAnalogBase::RLArduinoAnalogBase(float vRef, uint8_t bits, float gain, encoding encoding)
+{
+  setDefaultCalibration(vRef, bits, gain, encoding); 
 }
 
 //Calibrate
@@ -37,7 +34,6 @@ void RLArduinoAnalogBase::calibrate(uint32_t code1, uint32_t code2, float voltag
   }
   
 }
-
 
 //Get the bits
 uint8_t RLArduinoAnalogBase::getBits()
@@ -74,8 +70,17 @@ uint32_t RLArduinoAnalogBase::getCodeFromVoltage(float voltage)
   {
     code = 0;
   }
+  if (voltage < _offset)
+  {
+    code = 0;
+  }
   return code;
-  
+}
+
+//Get the Gain
+float RLArduinoAnalogBase::getGain()
+{
+  return _gain;
 }
 
 //Get the LSB
@@ -102,26 +107,45 @@ float RLArduinoAnalogBase::getVref()
   return _vRef;
 }
 
+//Reset the calibration
+void RLArduinoAnalogBase::setDefaultCalibration(float vRef, uint8_t bits, float gain, encoding encoding)
+{
+  //Set the default calibration
+  _bits = bits;
+  _count = 0x1 << _bits;
+  _vRef = vRef;
+  _gain = gain;
+  _encoding = encoding;
+  _lsb = 1;
+  if (encoding == UNIPOLAR)
+  {
+    if (_count != 0)
+    {
+      _lsb = gain * _vRef / _count;
+    }   
+    _offset = 0;
+  }
+  else
+  {
+    //bipolar
+    if (_count != 0)
+    {
+      _lsb = 2.0 * gain * _vRef / _count;
+    }  
+    _offset = -gain * _vRef;
+  }
+}
+
 //Set the calibration
 void RLArduinoAnalogBase::setCalibration(float lsb, float offset)
 {
   _lsb = lsb;
-  /*
-  if (_lsb < 0 && _count != 0)
-  {
-    _lsb = _vRef / _count;
-  }*/
   _offset = offset;
 }
 
-//Reset the calibration
 void RLArduinoAnalogBase::resetCalibration()
 {
-  if (_count != 0)
-  {
-    _lsb = _vRef / _count;
-  }  
-  _offset = 0;  
+  setDefaultCalibration(_vRef, _bits, _gain, _encoding);
 }
 
 //Get the version
