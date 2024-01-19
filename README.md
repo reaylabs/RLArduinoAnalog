@@ -9,7 +9,7 @@ Class RLArduinoAnalogBase
 ```C++
     explicit RLArduinoAnalogBase(float vRef, uint8_t bits);
     explicit RLArduinoAnalogBase(float vRef, uint8_t bits, float gain, encoding encoding);
-    void  calculateDefaultCalibration(float vRef, uint8_t bits, float gain, encoding encoding);
+ 
     void calibrate(uint32_t code1, uint32_t code2, float voltage1, float voltage2);
     uint32_t getCodeFromVoltage(float voltage);
     uint8_t getBits();
@@ -22,6 +22,7 @@ Class RLArduinoAnalogBase
     float getVref();
     void  resetCalibration();
     void  setCalibration(float lsb, float offset);
+    void  setDefaultCalibration(float vRef, uint8_t bits, float gain, encoding encoding);
     String version();
 ```
 Class RLArduinoAnalogDac

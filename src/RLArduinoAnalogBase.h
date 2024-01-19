@@ -39,8 +39,8 @@ class RLArduinoAnalogBase {
     float getOffset();
     float getVoltageFromCode(uint32_t code);
     float getVref();
-    void  setDefaultCalibration(float vRef, uint8_t bits, float gain, encoding encoding);
     void resetCalibration();
+    void  setDefaultCalibration(float vRef, uint8_t bits, float gain, encoding encoding);
     void  setCalibration(float lsb, float offset);
     String version();
   
