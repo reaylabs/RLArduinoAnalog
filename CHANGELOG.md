@@ -19,4 +19,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Add the RLArduinoTMP36 class
 
 ## [1.3.0] - 2024-01-19
-- Added the UNIPOLAR and BIPOLAR capability to the RLArduinoBase class
+- Added the UNIPOLAR and BIPOLAR and Gain capability to the RLArduinoBase class
+- Added the setDefaultCalibration function to the RLArduinoBase class
+- Added the analogBaseBiolarTest.ino sketch
