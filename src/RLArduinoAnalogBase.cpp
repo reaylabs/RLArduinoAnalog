@@ -35,6 +35,10 @@ void RLArduinoAnalogBase::calibrate(uint32_t code1, uint32_t code2, float voltag
   
 }
 
+void RLArduinoAnalogBase::clearBit(uint8_t &reg, uint8_t bit) {
+  reg &= ~(1 << bit);
+}
+
 //Get the bits
 uint8_t RLArduinoAnalogBase::getBits()
 {
@@ -107,6 +111,10 @@ float RLArduinoAnalogBase::getVref()
   return _vRef;
 }
 
+//Set a bit in the register
+void RLArduinoAnalogBase::setBit(uint8_t &reg, uint8_t bit) {
+  reg |= (1 << bit);
+}
 //Reset the calibration
 void RLArduinoAnalogBase::setDefaultCalibration(float vRef, uint8_t bits, float gain, encoding encoding)
 {

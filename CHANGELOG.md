@@ -22,3 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added the UNIPOLAR and BIPOLAR and Gain capability to the RLArduinoBase class
 - Added the setDefaultCalibration function to the RLArduinoBase class
 - Added the analogBaseBiolarTest.ino sketch
+
+## [1.3.1] - 2024-01-19
+- Added the clearBit and setBit functions
+- Modified the analogBaseTest.ino sketch to test the clearBit and setBit functions

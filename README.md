@@ -11,6 +11,7 @@ Class RLArduinoAnalogBase
     explicit RLArduinoAnalogBase(float vRef, uint8_t bits, float gain, encoding encoding);
  
     void calibrate(uint32_t code1, uint32_t code2, float voltage1, float voltage2);
+    void clearBit(uint8_t &reg, uint8_t bit);
     uint32_t getCodeFromVoltage(float voltage);
     uint8_t getBits();
     uint8_t getCalibrationSize();
@@ -21,6 +22,7 @@ Class RLArduinoAnalogBase
     float getVoltageFromCode(uint32_t code);
     float getVref();
     void  resetCalibration();
+    void  setBit(uint8_t &reg, uint8_t bit);
     void  setCalibration(float lsb, float offset);
     void  setDefaultCalibration(float vRef, uint8_t bits, float gain, encoding encoding);
     String version();

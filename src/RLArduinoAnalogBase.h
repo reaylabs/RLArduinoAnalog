@@ -18,7 +18,7 @@ Author
   #include <avr/pgmspace.h> 
 #endif
 
-#define LIB_VERSION  (F("1.3.0"))
+#define LIB_VERSION  (F("1.3.1"))
 
 class RLArduinoAnalogBase {
   public:
@@ -30,6 +30,7 @@ class RLArduinoAnalogBase {
     explicit RLArduinoAnalogBase(float vRef, uint8_t bits, float gain, encoding encoding);
     void  calculateDefaultCalibration(float vRef, uint8_t bits, float gain, encoding encoding);
     void calibrate(uint32_t code1, uint32_t code2, float voltage1, float voltage2);
+    void clearBit(uint8_t &reg, uint8_t bit);
     uint32_t getCodeFromVoltage(float voltage);
     uint8_t getBits();
     uint8_t getCalibrationSize();
@@ -40,6 +41,7 @@ class RLArduinoAnalogBase {
     float getVoltageFromCode(uint32_t code);
     float getVref();
     void resetCalibration();
+    void setBit(uint8_t &reg, uint8_t bit);
     void  setDefaultCalibration(float vRef, uint8_t bits, float gain, encoding encoding);
     void  setCalibration(float lsb, float offset);
     String version();
@@ -52,7 +54,7 @@ class RLArduinoAnalogBase {
     float _lsb;
     float _gain = 1;
     encoding _encoding = UNIPOLAR;
-    const String _version = F("1.3.0");
+    const String _version = F("1.3.1");
 };
 
 #endif // _RL_ARDUINO_ANALOG_BASE_H_

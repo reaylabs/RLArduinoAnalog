@@ -9,6 +9,7 @@ RLArduinoTMP36	KEYWORD1
 # Methods and Functions (KEYWORD2)
 calibrate           KEYWORD2
 continueCalibration  KEYWORD2
+clearBit            KEYWORD2
 setDefaultCalibration KEYWORD2
 finishCalibration   KEYWORD2
 getCalibrationSize  KEYWORD2
@@ -29,6 +30,7 @@ readTemperatureC    KEYWORD2
 readTemperatureF    KEYWORD2
 resetCalibration    KEYWORD2
 setAverageCount     KEYWORD2 
+setBit              KEYWORD2
 setCalibration      KEYWORD2
 setSamplen          KEYWORD2
 version             KEYWORD2

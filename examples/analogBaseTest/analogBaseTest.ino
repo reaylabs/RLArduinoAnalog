@@ -30,6 +30,7 @@ void testDaq()
   Serial.println("*** Starting RLArduinoAnalogBase Test ***\n");
   testInitialConditions();
   testCalibration();
+  testClearSet();
   Serial.println("\n *** RLArduinoAnalogBase Test Complete***\n");
 }
 
@@ -92,4 +93,16 @@ void testInitialConditions()
   printCodeToVoltage(0);
   printCodeToVoltage(daq.getVref()/2);
   printCodeToVoltage(daq.getVref() - daq.getLsb());
+}
+
+void testClearSet() {
+  uint8_t reg = 0;
+  Serial.print("Register: ");
+  Serial.println(reg, HEX);
+  daq.setBit(reg, 7);
+  Serial.print("Register: ");
+  Serial.println(reg, HEX);
+  daq.clearBit(reg, 7);
+  Serial.print("Register: ");
+  Serial.println(reg, HEX);
 }
