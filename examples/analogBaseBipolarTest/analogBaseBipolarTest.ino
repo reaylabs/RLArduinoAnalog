@@ -14,6 +14,7 @@ Author
 float vRef = 3.3;
 uint8_t bits = 10;
 float gain = 1;
+float offset = 0;
 
 RLArduinoAnalogBase daq(vRef, bits);
 
@@ -30,8 +31,10 @@ void testDaq()
 {
   Serial.println("RLArduinoAnalogBase Version: " + daq.version()+ "\n");
   testBipolar1();
+  testBipolar2();
   testUnipolar1();
   testUnipolar2();
+  testUnipolar3();
 }
 
 void printState()
@@ -69,7 +72,25 @@ void testBipolar1()
   vRef = 2.5;
   bits = 24;
   gain = 50;
-  daq.setDefaultCalibration(vRef, bits, gain, daq.BIPOLAR);
+  daq.setDefaultCalibration(vRef, bits, gain,BIPOLAR);
+  printState();
+  printVoltageToCode(-126);
+  printVoltageToCode(-125);
+  printVoltageToCode(0);
+  printVoltageToCode(125);
+  printVoltageToCode(126);
+  printCodeToVoltage(0);
+  printCodeToVoltage(0x800000);
+  printCodeToVoltage(0xFFFFFF);
+}
+
+void testBipolar2()
+{
+  Serial.println("\n*** Bipolar Test #2 ****");
+  vRef = 2.5;
+  bits = 24;
+  gain = -50;
+  daq.setDefaultCalibration(vRef, bits, gain,BIPOLAR);
   printState();
   printVoltageToCode(-126);
   printVoltageToCode(-125);
@@ -87,7 +108,7 @@ void testUnipolar1()
   vRef = 3.3;
   bits = 10;
   gain = 1;
-  daq.setDefaultCalibration(vRef, bits, gain, daq.UNIPOLAR);
+  daq.setDefaultCalibration(vRef, bits, gain,UNIPOLAR);
   printState();
   printVoltageToCode(-1);
   printVoltageToCode(0);
@@ -98,15 +119,32 @@ void testUnipolar1()
 
 void testUnipolar2()
 {
-  Serial.println("\n*** Unipolar Test #1 ****");
+  Serial.println("\n*** Unipolar Test #2 ****");
   vRef = 2.048;
   bits = 12;
   gain = 2;
-  daq.setDefaultCalibration(vRef, bits, gain, daq.UNIPOLAR);
+  offset = -5e-3;
+  daq.setDefaultCalibration(vRef, bits, gain, offset, UNIPOLAR);
   printState();
   printVoltageToCode(-1);
   printVoltageToCode(0);
   printVoltageToCode(vRef/2);
   printVoltageToCode(2*vRef);
   printVoltageToCode(2.1*vRef);
+}
+
+void testUnipolar3()
+{
+  Serial.println("\n*** Unipolar Test #3 ****");
+  vRef = 2.5;
+  bits = 16;
+  gain = -2;
+  offset = 5;
+  daq.setDefaultCalibration(vRef, bits, gain, offset,UNIPOLAR);
+  printState();
+  printVoltageToCode(-1);
+  printVoltageToCode(0);
+  printVoltageToCode(2.5);
+  printVoltageToCode(5);
+  printVoltageToCode(5.1);
 }

@@ -9,22 +9,23 @@ Class RLArduinoAnalogBase
 ```C++
     explicit RLArduinoAnalogBase(float vRef, uint8_t bits);
     explicit RLArduinoAnalogBase(float vRef, uint8_t bits, float gain, encoding encoding);
- 
-    void calibrate(uint32_t code1, uint32_t code2, float voltage1, float voltage2);
+    explicit RLArduinoAnalogBase(float vRef, uint8_t bits, float gain, float offset, encoding encoding);
+    void calibrate(long code1, long code2, float voltage1, float voltage2);
     void clearBit(uint8_t &reg, uint8_t bit);
     uint32_t getCodeFromVoltage(float voltage);
     uint8_t getBits();
     uint8_t getCalibrationSize();
-    uint32_t getCount();
     float getGain();
+    uint32_t getCount();
     float getLsb();
     float getOffset();
-    float getVoltageFromCode(uint32_t code);
+    float getVoltageFromCode(long code);
     float getVref();
-    void  resetCalibration();
-    void  setBit(uint8_t &reg, uint8_t bit);
-    void  setCalibration(float lsb, float offset);
+    void resetCalibration();
+    void setBit(uint8_t &reg, uint8_t bit);
     void  setDefaultCalibration(float vRef, uint8_t bits, float gain, encoding encoding);
+    void  setDefaultCalibration(float vRef, uint8_t bits, float gain, float offset, encoding encoding);
+    void  setCalibration(float lsb, float offset);
     String version();
 ```
 Class RLArduinoAnalogDac

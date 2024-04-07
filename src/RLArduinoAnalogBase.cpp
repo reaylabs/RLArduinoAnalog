@@ -22,11 +22,16 @@ RLArduinoAnalogBase::RLArduinoAnalogBase(float vRef, uint8_t bits, float gain, e
   setDefaultCalibration(vRef, bits, gain, encoding); 
 }
 
+RLArduinoAnalogBase::RLArduinoAnalogBase(float vRef, uint8_t bits, float gain,float offset, encoding encoding)
+{
+  setDefaultCalibration(vRef, bits, gain, offset, UNIPOLAR); 
+}
+
 //Calibrate
-void RLArduinoAnalogBase::calibrate(uint32_t code1, uint32_t code2, float voltage1, float voltage2)
+void RLArduinoAnalogBase::calibrate(long code1, long code2, float voltage1, float voltage2)
 {
   //Two point linear calibration
-  uint32_t codeDiff = code2 - code1;
+  long codeDiff = code2 - code1;
   if (codeDiff != 0)
   {
     _lsb = (voltage2 - voltage1) / (float)(codeDiff); 
@@ -65,7 +70,7 @@ uint32_t RLArduinoAnalogBase::getCodeFromVoltage(float voltage)
   {
     code = (uint32_t)(round((voltage - _offset) / _lsb));
   }
-  
+
   if (code > _count -1)
   {
     code = _count - 1;
@@ -74,10 +79,23 @@ uint32_t RLArduinoAnalogBase::getCodeFromVoltage(float voltage)
   {
     code = 0;
   }
-  if (voltage < _offset)
-  {
-    code = 0;
+
+  if (_gain > 0) {
+    if (voltage < _offset) {
+      code = 0;
+    }
+  } else {
+    if (_encoding == BIPOLAR) {
+      if (voltage > (_vRef * _gain) + _offset) {
+        code = 0;
+      }
+    } else {
+      if (voltage > _offset) {
+        code = 0;
+      }
+    }
   }
+
   return code;
 }
 
@@ -100,7 +118,7 @@ float RLArduinoAnalogBase::getOffset()
 }
 
 //Get the voltage from the code
-float RLArduinoAnalogBase::getVoltageFromCode(uint32_t code)
+float RLArduinoAnalogBase::getVoltageFromCode(long code)
 {
   return  _offset + ((float)code * _lsb);
 }
@@ -115,6 +133,13 @@ float RLArduinoAnalogBase::getVref()
 void RLArduinoAnalogBase::setBit(uint8_t &reg, uint8_t bit) {
   reg |= (1 << bit);
 }
+
+//Reset the calibration
+void RLArduinoAnalogBase::setDefaultCalibration(float vRef, uint8_t bits, float gain, float offset, encoding encoding) {
+  setDefaultCalibration(vRef, bits, gain, encoding);
+  _offset += offset;
+}
+
 //Reset the calibration
 void RLArduinoAnalogBase::setDefaultCalibration(float vRef, uint8_t bits, float gain, encoding encoding)
 {
@@ -144,6 +169,8 @@ void RLArduinoAnalogBase::setDefaultCalibration(float vRef, uint8_t bits, float 
   }
 }
 
+
+
 //Set the calibration
 void RLArduinoAnalogBase::setCalibration(float lsb, float offset)
 {
@@ -153,7 +180,7 @@ void RLArduinoAnalogBase::setCalibration(float lsb, float offset)
 
 void RLArduinoAnalogBase::resetCalibration()
 {
-  setDefaultCalibration(_vRef, _bits, _gain, _encoding);
+  setDefaultCalibration(_vRef, _bits, _gain, _offset, _encoding);
 }
 
 //Get the version

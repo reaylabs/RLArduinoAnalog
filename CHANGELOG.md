@@ -26,3 +26,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.3.1] - 2024-01-19
 - Added the clearBit and setBit functions
 - Modified the analogBaseTest.ino sketch to test the clearBit and setBit functions
+
+## [1.4.0] - 2024-02-18
+- Changed the calibration code variables from uint32_t to long
+
+## [1.5.0] - 2024-04-07
+- Added the RLArduinoAnalogBase(float vRef, uint8_t bits, float gain, float offset, encoding encoding) that includes the offset
+- Modified the offset check in the RLAnalogBase.cpp getCodeFromVoltage to allow for negative gain
+- Added the testUnipolar3() test in the analogBaseBipolarTest.ino example
